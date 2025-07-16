@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lay Wears - Luxury Jewelry & Thrift Store</title>
+    <meta name="description" content="Premium jewelry and thrift collection in Nigeria">
+    <meta name="author" content="Lay Wears">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    
+    <style>
+        :root {
+            /* Light theme */
+            --background: hsl(20, 14%, 98%);
+            --foreground: hsl(24, 10%, 10%);
+            --surface: hsl(20, 20%, 99%);
+            --surface-elevated: hsl(0, 0%, 100%);
+            --card: hsl(0, 0%, 100%);
+            --card-foreground: hsl(24, 10%, 10%);
+            
+            /* Brand Colors */
+            --primary: hsl(45, 100%, 51%);
+            --primary-foreground: hsl(24, 10%, 10%);
+            --primary-muted: hsl(45, 54%, 47%);
+            --secondary: hsl(152, 69%, 19%);
+            --secondary-foreground: hsl(0, 0%, 100%);
+            
+            /* Neutral */
+            --muted: hsl(20, 6%, 90%);
+            --muted-foreground: hsl(25, 5%, 45%);
+            --accent: hsl(20, 10%, 95%);
+            --border: hsl(20, 6%, 90%);
+            
+            /* Effects */
+            --shadow-luxury: 0 25px 50px -12px hsla(45, 100%, 51%, 0.25);
+            --shadow-card: 0 10px 30px -10px hsla(24, 10%, 10%, 0.1);
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        [data-theme="dark"] {
+            --background: hsl(24, 10%, 5%);
+            --foreground: hsl(20, 14%, 95%);
+            --surface: hsl(24, 10%, 6%);
+            --surface-elevated: hsl(24, 10%, 8%);
+            --card: hsl(24, 10%, 8%);
+            --card-foreground: hsl(20, 14%, 95%);
+            
+            --primary: hsl(45, 100%, 60%);
+            --primary-foreground: hsl(24, 10%, 5%);
+            --secondary: hsl(152, 69%, 15%);
+            
+            --muted: hsl(24, 6%, 15%);
+            --muted-foreground: hsl(24, 5%, 60%);
+            --accent: hsl(24, 10%, 12%);
+            --border: hsl(24, 6%, 15%);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background);
+            color: var(--foreground);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .font-display {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .text-gradient-gold {
+            background: linear-gradient(135deg, var(--primary), var(--primary-muted));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Video Background */
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -10;
+            overflow: hidden;
+        }
+        
+        .video-background::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, 
+                hsla(20, 14%, 98%, 0.9) 0%, 
+                hsla(20, 14%, 98%, 0.7) 50%, 
+                hsla(20, 14%, 98%, 0.9) 100%);
+            z-index: 1;
+        }
+        
+        [data-theme="dark"] .video-background::before {
+            background: linear-gradient(135deg, 
+                hsla(24, 10%, 5%, 0.95) 0%, 
+                hsla(24, 10%, 5%, 0.8) 50%, 
+                hsla(24, 10%, 5%, 0.95) 100%);
+        }
+        
+        .video-background video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.3;
+        }
+        
+        [data-theme="dark"] .video-background video {
+            opacity: 0.2;
+        }
+        
+        /* Floating particles */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 50%;
+            opacity: 0.2;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+        
+        @keyframes glow {
+            0% { box-shadow: 0 0 20px hsla(45, 100%, 51%, 0.3); }
+            100% { box-shadow: 0 0 40px hsla(45, 100%, 51%, 0.6); }
+        }
+        
+        .animate-glow {
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        
+        /* Layout */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        /* Header */
+        .header {
+            position: relative;
+            z-index: 40;
+            border-bottom: 1px solid hsla(20, 6%, 90%, 0.5);
+            background: hsla(20, 14%, 98%, 0.8);
+            backdrop-filter: blur(12px);
+            padding: 1rem 0;
+        }
+        
+        [data-theme="dark"] .header {
+            background: hsla(24, 10%, 5%, 0.8);
+            border-bottom: 1px solid hsla(24, 6%, 15%, 0.5);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .logo-icon {
+            width: 2rem;
+            height: 2rem;
+            color: var(--primary);
+        }
+        
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .logo-subtitle {
+            font-size: 0.75rem;
+            color: var(--muted-foreground);
+        }
+        
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            font-size: 0.875rem;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: var(--primary-foreground);
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-muted);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-luxury);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--foreground);
+        }
+        
+        .btn-outline:hover {
+            border-color: var(--primary);
+            background: hsla(45, 100%, 51%, 0.1);
+        }
+        
+        .btn-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            padding: 0;
+        }
+        
+        /* Hero Section */
+        .hero {
+            position: relative;
+            z-index: 30;
+            padding: 5rem 0;
+            text-align: center;
+        }
+        
+        .hero-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: hsla(45, 100%, 51%, 0.1);
+            color: var(--primary);
+            border: 1px solid hsla(45, 100%, 51%, 0.2);
+            border-radius: 2rem;
+            font-weight: 500;
+            margin-bottom: 2rem;
+        }
+        
+        .hero-title {
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+        
+        .hero-description {
+            font-size: 1.25rem;
+            color: var(--muted-foreground);
+            margin-bottom: 2rem;
+            max-width: 42rem;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--muted-foreground);
+        }
+        
+        /* Search Section */
+        .search-section {
+            position: relative;
+            z-index: 30;
+            padding: 2rem 0;
+            background: hsla(20, 20%, 99%, 0.5);
+            backdrop-filter: blur(4px);
+        }
+        
+        [data-theme="dark"] .search-section {
+            background: hsla(24, 10%, 6%, 0.5);
+        }
+        
+        .search-container {
+            max-width: 64rem;
+            margin: 0 auto;
+        }
+        
+        .search-bar {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            font-size: 1rem;
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            background: hsla(0, 0%, 100%, 0.5);
+            backdrop-filter: blur(4px);
+            color: var(--foreground);
+        }
+        
+        [data-theme="dark"] .search-input {
+            background: hsla(24, 10%, 8%, 0.5);
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--muted-foreground);
+        }
+        
+        .categories {
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+        
+        .category-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            background: hsla(0, 0%, 100%, 0.5);
+            backdrop-filter: blur(4px);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        
+        [data-theme="dark"] .category-btn {
+            background: hsla(24, 10%, 8%, 0.5);
+        }
+        
+        .category-btn.active {
+            background: var(--primary);
+            color: var(--primary-foreground);
+            border-color: var(--primary);
+        }
+        
+        .category-btn:hover:not(.active) {
+            border-color: var(--primary);
+            background: hsla(45, 100%, 51%, 0.1);
+        }
+        
+        .category-count {
+            background: hsla(0, 0%, 100%, 0.8);
+            color: var(--foreground);
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        /* Products Section */
+        .products-section {
+            position: relative;
+            z-index: 30;
+            padding: 4rem 0;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .section-description {
+            color: var(--muted-foreground);
+            max-width: 32rem;
+            margin: 0 auto;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+        
+        /* Product Cards */
+        .product-card {
+            background: hsla(0, 0%, 100%, 0.5);
+            border: 1px solid hsla(20, 6%, 90%, 0.5);
+            border-radius: 0.75rem;
+            overflow: hidden;
+            transition: var(--transition-smooth);
+            backdrop-filter: blur(4px);
+            group: true;
+        }
+        
+        [data-theme="dark"] .product-card {
+            background: hsla(24, 10%, 8%, 0.5);
+            border-color: hsla(24, 6%, 15%, 0.5);
+        }
+        
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-card);
+            border-color: hsla(45, 100%, 51%, 0.2);
+        }
+        
+        .product-image-container {
+            position: relative;
+            aspect-ratio: 1;
+            overflow: hidden;
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.7s ease;
+        }
+        
+        .product-card:hover .product-image {
+            transform: scale(1.1);
+        }
+        
+        .product-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.5), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .product-card:hover .product-overlay {
+            opacity: 1;
+        }
+        
+        .product-badges {
+            position: absolute;
+            top: 0.75rem;
+            left: 0.75rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .badge-new {
+            background: var(--primary);
+            color: var(--primary-foreground);
+        }
+        
+        .badge-featured {
+            background: var(--secondary);
+            color: var(--secondary-foreground);
+        }
+        
+        .badge-discount {
+            background: hsl(0, 84%, 60%);
+            color: white;
+        }
+        
+        .product-content {
+            padding: 1rem;
+            space-y: 0.75rem;
+        }
+        
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .star {
+            width: 0.75rem;
+            height: 0.75rem;
+            color: var(--primary);
+            fill: currentColor;
+        }
+        
+        .rating-text {
+            font-size: 0.75rem;
+            color: var(--muted-foreground);
+            margin-left: 0.25rem;
+        }
+        
+        .product-name {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            transition: color 0.3s ease;
+        }
+        
+        .product-card:hover .product-name {
+            color: var(--primary);
+        }
+        
+        .product-description {
+            font-size: 0.875rem;
+            color: var(--muted-foreground);
+            margin-bottom: 0.75rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .product-pricing {
+            display: flex;
+            align-items: baseline;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .product-price {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .product-original-price {
+            font-size: 0.875rem;
+            color: var(--muted-foreground);
+            text-decoration: line-through;
+        }
+        
+        .whatsapp-btn {
+            width: 100%;
+            background: #25D366;
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .whatsapp-btn:hover {
+            background: #20B858;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(37, 211, 102, 0.4);
+        }
+        
+        /* Contact Section */
+        .contact-section {
+            position: relative;
+            z-index: 30;
+            padding: 4rem 0;
+            background: hsla(20, 20%, 99%, 0.3);
+            backdrop-filter: blur(4px);
+        }
+        
+        [data-theme="dark"] .contact-section {
+            background: hsla(24, 10%, 6%, 0.3);
+        }
+        
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            max-width: 64rem;
+            margin: 0 auto;
+        }
+        
+        .contact-card {
+            background: hsla(0, 0%, 100%, 0.5);
+            border: 1px solid hsla(20, 6%, 90%, 0.5);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            text-align: center;
+            transition: var(--transition-smooth);
+            backdrop-filter: blur(4px);
+        }
+        
+        [data-theme="dark"] .contact-card {
+            background: hsla(24, 10%, 8%, 0.5);
+            border-color: hsla(24, 6%, 15%, 0.5);
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-card);
+        }
+        
+        .contact-icon {
+            width: 2rem;
+            height: 2rem;
+            color: var(--primary);
+            margin: 0 auto 0.75rem;
+        }
+        
+        .contact-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .contact-text {
+            font-size: 0.875rem;
+            color: var(--muted-foreground);
+        }
+        
+        /* Footer */
+        .footer {
+            position: relative;
+            z-index: 30;
+            border-top: 1px solid hsla(20, 6%, 90%, 0.5);
+            background: hsla(20, 14%, 98%, 0.8);
+            backdrop-filter: blur(4px);
+            padding: 3rem 0;
+            text-align: center;
+        }
+        
+        [data-theme="dark"] .footer {
+            background: hsla(24, 10%, 5%, 0.8);
+            border-top-color: hsla(24, 6%, 15%, 0.5);
+        }
+        
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-description {
+            color: var(--muted-foreground);
+            margin-bottom: 1.5rem;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .social-btn {
+            width: 2.5rem;
+            height: 2.5rem;
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            color: var(--foreground);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .social-btn:hover {
+            background: var(--primary);
+            color: var(--primary-foreground);
+            border-color: var(--primary);
+        }
+        
+        .footer-copyright {
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+            font-size: 0.875rem;
+            color: var(--muted-foreground);
+        }
+        
+        /* Admin Panel */
+        .admin-overlay {
+            position: fixed;
+            inset: 0;
+            background: hsla(0, 0%, 0%, 0.8);
+            backdrop-filter: blur(4px);
+            z-index: 50;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .admin-overlay.show {
+            display: flex;
+        }
+        
+        .admin-panel {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+            padding: 2rem;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+        }
+        
+        .admin-icon {
+            width: 3rem;
+            height: 3rem;
+            color: var(--primary);
+            margin: 0 auto 1rem;
+            background: hsla(45, 100%, 51%, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .admin-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .admin-subtitle {
+            color: var(--muted-foreground);
+            margin-bottom: 1.5rem;
+        }
+        
+        .admin-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            background: var(--background);
+            color: var(--foreground);
+        }
+        
+        .admin-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .admin-error {
+            color: hsl(0, 84%, 60%);
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .hero {
+                padding: 3rem 0;
+            }
+            
+            .stats {
+                gap: 1rem;
+            }
+            
+            .categories {
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding-bottom: 0.5rem;
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 1.5rem;
+            }
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Video Background -->
+    <div class="video-background">
+        <video autoplay muted loop playsinline>
+            <source src="https://assets.mixkit.co/videos/preview/mixkit-luxury-gold-jewelry-close-up-46047-large.mp4" type="video/mp4">
+        </video>
+        <div class="particles" id="particles"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i data-lucide="crown" class="logo-icon animate-glow"></i>
+                    <div>
+                        <h1 class="logo-text font-display text-gradient-gold">Lay Wears</h1>
+                        <p class="logo-subtitle">Luxury Jewelry & Thrift</p>
+                    </div>
+                </div>
+                
+                <div class="header-actions">
+                    <button class="btn btn-outline btn-icon" id="themeToggle" title="Toggle theme">
+                        <i data-lucide="sun" id="themeIcon"></i>
+                    </button>
+                    <button class="btn btn-outline btn-icon" id="adminBtn" title="Admin panel">
+                        <i data-lucide="settings"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-badge">✨ Premium Collection Available</div>
+            
+            <h2 class="hero-title font-display">
+                Discover <span class="text-gradient-gold">Elegant Jewelry</span>
+                & <span style="color: var(--secondary)">Unique Thrift</span>
+            </h2>
+            
+            <p class="hero-description">
+                Curated collection of luxury jewelry and vintage thrift pieces. 
+                Each item tells a story of style and sophistication.
+            </p>
+
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-number">500+</div>
+                    <div class="stat-label">Happy Customers</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">Unique Pieces</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">⭐⭐⭐⭐⭐</div>
+                    <div class="stat-label">5.0 Rating</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search Section -->
+    <section class="search-section">
+        <div class="container">
+            <div class="search-container">
+                <div class="search-bar">
+                    <i data-lucide="search" class="search-icon"></i>
+                    <input type="text" class="search-input" placeholder="Search for jewelry, accessories, clothing..." id="searchInput">
+                </div>
+                
+                <div class="categories">
+                    <button class="category-btn active" data-category="all">
+                        <i data-lucide="shopping-bag"></i>
+                        All Products
+                        <span class="category-count" id="allCount">6</span>
+                    </button>
+                    <button class="category-btn" data-category="jewelry">
+                        <i data-lucide="gem"></i>
+                        Jewelry
+                        <span class="category-count" id="jewelryCount">3</span>
+                    </button>
+                    <button class="category-btn" data-category="thrift">
+                        <i data-lucide="shirt"></i>
+                        Thrift
+                        <span class="category-count" id="thriftCount">3</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products-section">
+        <div class="container">
+            <div class="section-header">
+                <h3 class="section-title font-display">Our Premium Collection</h3>
+                <p class="section-description">
+                    Carefully selected jewelry and thrift pieces that reflect quality, style, and affordability.
+                </p>
+            </div>
+
+            <div class="products-grid" id="productsGrid">
+                <!-- Products will be loaded by JavaScript -->
+            </div>
+
+            <div class="hidden" id="noResults">
+                <div style="text-align: center; padding: 4rem 0;">
+                    <div style="width: 4rem; height: 4rem; margin: 0 auto 1rem; background: var(--muted); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                        <i data-lucide="search" style="width: 2rem; height: 2rem; color: var(--muted-foreground);"></i>
+                    </div>
+                    <h4 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5rem;">No products found</h4>
+                    <p style="color: var(--muted-foreground);">Try adjusting your search or filter criteria</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section">
+        <div class="container">
+            <div class="section-header">
+                <h3 class="section-title font-display">Get in Touch</h3>
+                <p class="section-description">
+                    Have questions about our products? We're here to help!
+                </p>
+            </div>
+
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <i data-lucide="phone" class="contact-icon"></i>
+                    <h4 class="contact-title">WhatsApp</h4>
+                    <p class="contact-text">+234 903 282 9002</p>
+                </div>
+                
+                <div class="contact-card">
+                    <i data-lucide="instagram" class="contact-icon"></i>
+                    <h4 class="contact-title">Instagram</h4>
+                    <p class="contact-text">@laywears</p>
+                </div>
+                
+                <div class="contact-card">
+                    <i data-lucide="map-pin" class="contact-icon"></i>
+                    <h4 class="contact-title">Location</h4>
+                    <p class="contact-text">Lagos, Nigeria</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-logo">
+                <i data-lucide="crown" style="width: 1.5rem; height: 1.5rem; color: var(--primary);"></i>
+                <span class="font-display text-gradient-gold" style="font-size: 1.25rem; font-weight: 700;">
+                    Lay Wears
+                </span>
+            </div>
+            <p class="footer-description">
+                Premium jewelry and thrift collection in Nigeria
+            </p>
+            <div class="social-links">
+                <button class="social-btn">
+                    <i data-lucide="instagram"></i>
+                </button>
+                <button class="social-btn">
+                    <i data-lucide="facebook"></i>
+                </button>
+            </div>
+            <div class="footer-copyright">
+                © 2024 Lay Wears. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Admin Panel -->
+    <div class="admin-overlay" id="adminOverlay">
+        <div class="admin-panel">
+            <div class="admin-icon">
+                <i data-lucide="lock"></i>
+            </div>
+            <h2 class="admin-title font-display">Admin Login</h2>
+            <p class="admin-subtitle">Enter password to access admin panel</p>
+            
+            <input type="password" class="admin-input" placeholder="Enter admin password" id="adminPassword">
+            <div class="admin-error hidden" id="adminError">Invalid password</div>
+            
+            <button class="btn btn-primary" style="width: 100%; margin-bottom: 1rem;" onclick="adminLogin()">
+                Login to Admin Panel
+            </button>
+            
+            <button class="btn btn-outline" style="width: 100%;" onclick="closeAdmin()">
+                Cancel
+            </button>
+            
+            <p style="font-size: 0.75rem; color: var(--muted-foreground); margin-top: 1rem;">
+                Note: For full backend functionality, connect Supabase integration
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Product data
+        const products = [
+            {
+                id: '1',
+                name: 'Elegant Gold Chain Necklace',
+                price: 45000,
+                originalPrice: 55000,
+                image: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=500&h=500&fit=crop',
+                category: 'jewelry',
+                rating: 4.8,
+                description: 'Stunning 18k gold plated chain necklace perfect for any occasion',
+                isNew: true,
+                isFeatured: true
+            },
+            {
+                id: '2',
+                name: 'Vintage Denim Jacket',
+                price: 12000,
+                originalPrice: 18000,
+                image: 'https://images.unsplash.com/photo-1544966503-7cc5ac882d5e?w=500&h=500&fit=crop',
+                category: 'thrift',
+                rating: 4.5,
+                description: 'Classic vintage denim jacket in excellent condition, perfect retro style',
+                isNew: false,
+                isFeatured: true
+            },
+            {
+                id: '3',
+                name: 'Diamond Stud Earrings',
+                price: 75000,
+                image: 'https://images.unsplash.com/photo-1535632787350-4e68ef0ac584?w=500&h=500&fit=crop',
+                category: 'jewelry',
+                rating: 5.0,
+                description: 'Brilliant cut diamond earrings that sparkle beautifully in any light',
+                isNew: true,
+                isFeatured: false
+            },
+            {
+                id: '4',
+                name: 'Designer Silk Scarf',
+                price: 8500,
+                originalPrice: 15000,
+                image: 'https://images.unsplash.com/photo-1601925406671-80fba19b3e1e?w=500&h=500&fit=crop',
+                category: 'thrift',
+                rating: 4.3,
+                description: 'Luxurious silk scarf with beautiful patterns, barely used',
+                isNew: false,
+                isFeatured: false
+            },
+            {
+                id: '5',
+                name: 'Ruby Tennis Bracelet',
+                price: 95000,
+                image: 'https://images.unsplash.com/photo-1611652022419-a9419f74343d?w=500&h=500&fit=crop',
+                category: 'jewelry',
+                rating: 4.9,
+                description: 'Exquisite ruby tennis bracelet with sterling silver setting',
+                isNew: true,
+                isFeatured: true
+            },
+            {
+                id: '6',
+                name: 'Vintage Leather Handbag',
+                price: 25000,
+                originalPrice: 40000,
+                image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&h=500&fit=crop',
+                category: 'thrift',
+                rating: 4.6,
+                description: 'Authentic leather handbag with beautiful aging and character',
+                isNew: false,
+                isFeatured: false
+            }
+        ];
+
+        const whatsappNumber = "2349032829002";
+        let currentCategory = 'all';
+        let searchQuery = '';
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            lucide.createIcons();
+            initTheme();
+            createParticles();
+            renderProducts();
+            setupEventListeners();
+        });
+
+        // Theme management
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            const themeIcon = document.getElementById('themeIcon');
+            
+            if (savedTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                themeIcon.setAttribute('data-lucide', 'sun');
+            } else {
+                themeIcon.setAttribute('data-lucide', 'moon');
+            }
+            lucide.createIcons();
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            const themeIcon = document.getElementById('themeIcon');
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            if (newTheme === 'dark') {
+                themeIcon.setAttribute('data-lucide', 'sun');
+            } else {
+                themeIcon.setAttribute('data-lucide', 'moon');
+            }
+            lucide.createIcons();
+        }
+
+        // Create floating particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (6 + Math.random() * 4) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Product rendering
+        function renderProducts() {
+            const filteredProducts = products.filter(product => {
+                const matchesSearch = searchQuery === '' || 
+                    product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    product.description.toLowerCase().includes(searchQuery.toLowerCase());
+                const matchesCategory = currentCategory === 'all' || product.category === currentCategory;
+                return matchesSearch && matchesCategory;
+            });
+
+            const productsGrid = document.getElementById('productsGrid');
+            const noResults = document.getElementById('noResults');
+
+            if (filteredProducts.length === 0) {
+                productsGrid.style.display = 'none';
+                noResults.classList.remove('hidden');
+            } else {
+                productsGrid.style.display = 'grid';
+                noResults.classList.add('hidden');
+                
+                productsGrid.innerHTML = filteredProducts.map(product => createProductCard(product)).join('');
+            }
+
+            // Update category counts
+            updateCategoryCounts();
+            lucide.createIcons();
+        }
+
+        function createProductCard(product) {
+            const discountPercentage = product.originalPrice 
+                ? Math.round((1 - product.price / product.originalPrice) * 100)
+                : 0;
+
+            const badges = [];
+            if (product.isNew) badges.push('<span class="badge badge-new">New</span>');
+            if (product.isFeatured) badges.push('<span class="badge badge-featured">Featured</span>');
+            if (discountPercentage > 0) badges.push(`<span class="badge badge-discount">-${discountPercentage}%</span>`);
+
+            const stars = Array(5).fill().map((_, i) => 
+                `<i data-lucide="star" class="star" style="${i < Math.floor(product.rating) ? 'fill: currentColor;' : 'fill: none;'}"></i>`
+            ).join('');
+
+            return `
+                <div class="product-card">
+                    <div class="product-image-container">
+                        <img src="${product.image}" alt="${product.name}" class="product-image">
+                        <div class="product-overlay"></div>
+                        <div class="product-badges">
+                            ${badges.join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="product-content">
+                        <div class="product-rating">
+                            ${stars}
+                            <span class="rating-text">(${product.rating})</span>
+                        </div>
+                        
+                        <h3 class="product-name font-display">${product.name}</h3>
+                        <p class="product-description">${product.description}</p>
+                        
+                        <div class="product-pricing">
+                            <span class="product-price">₦${product.price.toLocaleString()}</span>
+                            ${product.originalPrice ? `<span class="product-original-price">₦${product.originalPrice.toLocaleString()}</span>` : ''}
+                        </div>
+                        
+                        <button class="whatsapp-btn" onclick="contactWhatsApp('${product.id}')">
+                            <i data-lucide="message-circle"></i>
+                            Contact on WhatsApp
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function updateCategoryCounts() {
+            const counts = {
+                all: products.length,
+                jewelry: products.filter(p => p.category === 'jewelry').length,
+                thrift: products.filter(p => p.category === 'thrift').length
+            };
+
+            document.getElementById('allCount').textContent = counts.all;
+            document.getElementById('jewelryCount').textContent = counts.jewelry;
+            document.getElementById('thriftCount').textContent = counts.thrift;
+        }
+
+        // WhatsApp integration
+        function contactWhatsApp(productId) {
+            const product = products.find(p => p.id === productId);
+            if (product) {
+                const message = `Hi! I'm interested in ${product.name} (₦${product.price.toLocaleString()}) from Lay Wears. Can you provide more details?`;
+                const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+                window.open(whatsappUrl, '_blank');
+            }
+        }
+
+        // Event listeners
+        function setupEventListeners() {
+            // Theme toggle
+            document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+
+            // Admin panel
+            document.getElementById('adminBtn').addEventListener('click', showAdmin);
+
+            // Search
+            document.getElementById('searchInput').addEventListener('input', function(e) {
+                searchQuery = e.target.value;
+                renderProducts();
+            });
+
+            // Category filters
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    // Update current category and render
+                    currentCategory = this.getAttribute('data-category');
+                    renderProducts();
+                });
+            });
+
+            // Admin password enter key
+            document.getElementById('adminPassword').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    adminLogin();
+                }
+            });
+
+            // Close admin panel on overlay click
+            document.getElementById('adminOverlay').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeAdmin();
+                }
+            });
+        }
+
+        // Admin functions
+        function showAdmin() {
+            document.getElementById('adminOverlay').classList.add('show');
+            document.getElementById('adminPassword').focus();
+        }
+
+        function closeAdmin() {
+            document.getElementById('adminOverlay').classList.remove('show');
+            document.getElementById('adminPassword').value = '';
+            document.getElementById('adminError').classList.add('hidden');
+        }
+
+        function adminLogin() {
+            const password = document.getElementById('adminPassword').value;
+            const correctPassword = 'sonay@n';
+            
+            if (password === correctPassword) {
+                alert('Admin access granted! 🎉\n\nAdmin Panel Features:\n• Product Management\n• Analytics Dashboard\n• Customer Inquiries\n\nNote: Connect Supabase for full backend functionality including:\n• Real-time database\n• User authentication\n• File storage\n• Advanced admin features');
+                closeAdmin();
+            } else {
+                document.getElementById('adminError').classList.remove('hidden');
+                document.getElementById('adminPassword').value = '';
+            }
+        }
+
+        // Video playback rate adjustment
+        document.addEventListener('DOMContentLoaded', function() {
+            const video = document.querySelector('video');
+            if (video) {
+                video.playbackRate = 0.7;
+            }
+        });
+    </script>
+</body>
+</html>
